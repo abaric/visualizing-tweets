@@ -8,7 +8,7 @@ The way that the sentiment is mapped related to market color is red if on a scal
 
 # Perform the final steps in Terminal:
 
-0) Include your Twitter credentials via https://apps.twitter.com/ by making a new project, and type in 	```export GOOGLE_APPLICATION_CREDENTIALS="language_key.json" ``` in your folder so that you can activate the Google NLP API. 
+0) Include your Twitter credentials via https://apps.twitter.com/ by making a new project, and type in 	```export GOOGLE_APPLICATION_CREDENTIALS="language_key.json" ``` in your folder so that you can activate the Google NLP API. This json file has to be downloaded by first setting up a GCP project here: https://cloud.google.com/natural-language/docs/quickstart-client-libraries
 1) ```python mine_tweets.py > mined_tweets.json ```
    
    You can change the # of seconds you wish to collect tweets for by changing the variable "runtime" in mine_tweets.py.
