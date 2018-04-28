@@ -1,0 +1,11 @@
+Project: Visualizing and Analyzing Sentiment of Streamed Tweets Using Google Maps and the Google Cloud Language Platform
+
+Categories: Document Search (Twitter API produces a JSON file to perform analysis and visualizations upon); Social Networks (Twitter API retrieves data from a corpus of tweets worldwide & Google Maps API visualizes tweets); Information Networks (using the Google Cloud Language API to analyze sentiment of tweets)
+
+This is an app that maps sentiment of tweets across the world visually. It collects tweets in real-time based on the number of seconds you wish to collect it for. (The Twitter API does not allow you to get tweets over a certain period of time due to privacy issues most likely). This code only collects tweets that have coordinates associated with it, which is about 1-2% of tweets since users typically don't like to reveal their location. Then it is able to associate each of the tweets with a sentiment that ranges from -1.0 to 1.0 (very negative to very positive) using the Google Cloud Natural Language API. A user can upload the tweets they want to visualize. 
+
+The way that the sentiment is mapped related to market color is red if on a scale between -1 and -0.5 (negative), a light orange between -0.5 and 0 (somewhat negative), a light yellow/white between 0 and 0.5 (somewhat positive), and then green between 0.5 and 1 (positive).
+
+There are about 500 tweets mapped in the sample data set final_tweets.json uploaded here which was collected for 5 minutes on 4/28/2018.
+
+Tnis work was done independently with help from various links that are commented in the code. 
