@@ -44,11 +44,8 @@
 
               // get number between -1 and 1
               sentiment_scores.push(Math.random() * (1 - -1) + -1);
-              console.log(sentiment_scores[line]);
-
-              // console.log(tweets[line]);
-              // console.log(locations[line]);
             }
+            // display map once info is all populated
             initMap();
           };
           reader.readAsText(file);
@@ -67,31 +64,31 @@
       }
 
       function initMap() {
-
         var markers=[];
         var myLatLng = {lat: 28.0339, lng: 1.6596};
 
 
         map = new google.maps.Map(document.getElementById('map'), {
          zoom: 2,
-         center: myLatLng
+         center: myLatLng // centering long/latitude
        });
         //https://stackoverflow.com/questions/25600961/google-map-infowindow-not-showing-properly-but-when-i-open-firbug-so-its-workin
         var infowindow = new google.maps.InfoWindow();
         for (var i = 0; i < locations.length; i++){
           var arr = JSON.parse(locations[i]);
-
+          // display markers for each of the tweets
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(arr[1], arr[0]),
             map: map,
             title: tweets[i],
-            //icon: pinSymbol("#FFF")
           });
 
-          // -1<= to <= -0.5: red
-          // -0.5< to <=0: orange
-          // 0< to <=0.5: pink
-          // 0.5< to <=1: green
+          /* Set marker colors depending on sentiment
+          * -1<= to <= -0.5: red - negative
+          * -0.5< to <=0: orange - slightly negative
+          * 0< to <=0.5: pink - slightly positive
+          * 0.5< to <=1: green - positive 
+          */ 
 
           if (sentiment_scores[i] >=-1 && sentiment_scores[i] <= -0.5){
             marker.setIcon(pinSymbol("#F00"));
@@ -103,6 +100,7 @@
             marker.setIcon(pinSymbol("#7DB"));
           }
 
+          // upon click show tweet
           google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
               infowindow.setContent(tweets[i]);
