@@ -2,7 +2,10 @@ import tweepy
 import time
 import jsonpickle
 
-
+APP_KEY = "yYOq3kBrVcQxIiu5TkJcStKhq"
+APP_SECRET = "AysQXnWeZWcd1GiYcl15SqgdaPxID3c2K6FofgZdCEV3OsfRxI"
+OAUTH_TOKEN = "2945138685-LxVCeHygdHqeSkH13kZlbnnU22fBNEldjfCLjei"
+OAUTH_TOKEN_SECRET = "bAvDPo09GRHnflMRhTgiofnQBdaCks56QfYsYge9KKwio"
 
 
 # connect to twitter API
@@ -11,17 +14,16 @@ auth.set_access_token(OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
  
 api = tweepy.API(auth)
 
-runtime = 10
+runtime = 300
 class MyStreamListener(tweepy.StreamListener):
     #overload
     def on_status(self, status):
         try:
-            with open('testFile.json', 'a') as f:
-                if (status.coordinates is not None):
-                    print(jsonpickle.encode(status._json, unpicklable=False))
-                    #print(status)
-	            return True
-         
+            if (status.coordinates is not None):
+                print(jsonpickle.encode(status._json, unpicklable=False))
+                #print(status)
+            return True
+     
         except BaseException as e:
             print("Error on_status: %s" % str(e))
             
