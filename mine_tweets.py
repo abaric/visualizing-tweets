@@ -2,10 +2,10 @@ import tweepy
 import time
 import jsonpickle
 
-APP_KEY = "yYOq3kBrVcQxIiu5TkJcStKhq"
-APP_SECRET = "AysQXnWeZWcd1GiYcl15SqgdaPxID3c2K6FofgZdCEV3OsfRxI"
-OAUTH_TOKEN = "2945138685-LxVCeHygdHqeSkH13kZlbnnU22fBNEldjfCLjei"
-OAUTH_TOKEN_SECRET = "bAvDPo09GRHnflMRhTgiofnQBdaCks56QfYsYge9KKwio"
+APP_KEY = ""
+APP_SECRET = ""
+OAUTH_TOKEN = ""
+OAUTH_TOKEN_SECRET = ""
 
 
 # connect to twitter API
