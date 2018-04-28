@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>Simple markers</title>
+  <style>
+      /* Always set the map height explicitly to define the size of the div
+      * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="file" name="file" id="file">
+    <div id="map"></div>
+
+    <script>
+      var tweets = [];
+      var locations = [];
+      var map;
+
+      // https://stackoverflow.com/questions/23331546/how-to-use-javascript-to-read-local-text-file-and-read-line-by-line/23332116
+      document.getElementById('file').onchange = function(){
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.onload = function(progressEvent){
+            // By lines
+            var lines = this.result.split('\n');
+            for(var line = 0; line < lines.length; line++){
+              var tweet = lines[line].split("\t");
+              tweets.push(tweet[0]);
+              locations.push(tweet[1]);
+
+              // console.log(tweets[line]);
+              // console.log(locations[line]);
+            }
+            initMap();
+          };
+          reader.readAsText(file);
+      }
+
+      function initMap() {
+
+        var markers=[];
+        var myLatLng = {lat: -85.6, lng: 60.5};
+
+        map = new google.maps.Map(document.getElementById('map'), {
+         zoom: 2,
+         center: myLatLng
+       });
+
+        var infowindow = new google.maps.InfoWindow();
+        for (var i = 0; i < locations.length; i++){
+          var arr = JSON.parse(locations[i]);
+
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(arr[1], arr[0]),
+            map: map,
+            title: tweets[i]
+          });
+
+          google.maps.event.addListener(marker, 'click', (function (marker, i) {
+            return function () {
+              infowindow.setContent(tweets[i]);
+              infowindow.open(map, marker);
+            }
+          })(marker, i));
+
+          markers.push(marker);
+          
+        }
+        }
+      </script>
+      <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgQtvMTyNPg1xrmWXVz_29hA_PNFJOVfU">
+    </script>
+  </body>
+  </html>

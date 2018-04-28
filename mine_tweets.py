@@ -1,28 +1,46 @@
-from tweepy import Stream
-from tweepy import OAuthHandler
-from tweepy.streaming import StreamListener
+import tweepy
+import time
+import jsonpickle
 
-APP_KEY = ""
-APP_SECRET = ""
-OAUTH_TOKEN = ""
-OAUTH_TOKEN_SECRET = ""
 
-runtime = 5
 
-class listener(StreamListener):
-    def on_data(self, data):
-        #print data to file
-        with open('tweeeeets.txt','a') as tf:
-        	if (data['place']['bounding_box']['coordinates'] is not None):
-        		tf.write(data)
+
+# connect to twitter API
+auth = tweepy.OAuthHandler(APP_KEY, APP_SECRET)
+auth.set_access_token(OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
+ 
+api = tweepy.API(auth)
+
+runtime = 10
+class MyStreamListener(tweepy.StreamListener):
+    #overload
+    def on_status(self, status):
+        try:
+            with open('testFile.json', 'a') as f:
+                if (status.coordinates is not None):
+                    print(jsonpickle.encode(status._json, unpicklable=False))
+                    #print(status)
+	            return True
+         
+        except BaseException as e:
+            print("Error on_status: %s" % str(e))
+            
+        return True
+ 
+    def on_error(self, status):
+        print(status)
         return True
 
-    def on_error(self, status):
-        print status
+    def on_timeout(self):
+        return True 
 
-# set up connection to twitter
-auth = OAuthHandler(APP_KEY, APP_SECRET)
-auth.set_access_token(OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
-twitterStream = Stream(auth, listener())
-#secretly get all tweets (this covers all locations)
-twitterStream.filter(locations=[-180,-90,180,90])
+twitter_stream = tweepy.Stream(auth, MyStreamListener())
+# secretly gets all locations 
+# twitter_stream.filter(locations=[-180,-90,180,90], languages=["en"], async=True)
+twitter_stream.filter(locations=[-180,-90,180,90], async=True)
+# collect data for this many seconds
+time.sleep(runtime)
+twitter_stream.disconnect() 
+
+
+
