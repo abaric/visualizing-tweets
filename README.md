@@ -13,6 +13,7 @@ The way that the sentiment is mapped related to market color is red if on a scal
    
    You can change the # of seconds you wish to collect tweets for by changing the variable "runtime" in mine_tweets.py.
 2) ```python parse_twitter.py > final_tweets.json```
+	
 	Be sure to open final tweets and then delete the last empty line in the file (otherwise there will be an error).
 3) Open the map.html file and then upload the final_tweets.json file at the top of the page
 4) Enjoy the visualization! Ta-da :D
