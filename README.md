@@ -6,11 +6,13 @@ There are about 500 tweets mapped in the sample data set uploaded here which was
 
 The way that the sentiment is mapped related to market color is red if on a scale between -1 and -0.5, a light orange between -0.5 and 0, a light yellow/white between 0 and 0.5, and then green between 0.5 and 1. 
 
-Perform the final steps in Terminal:
-0) Include your Twitter credentials via https://apps.twitter.com/ by making a new project, and type in 		export GOOGLE_APPLICATION_CREDENTIALS="language_key.json" in your folder so that you can activate 		the Google NLP API. 
-1) python mine_tweets.py > mined_tweets.json
+# Perform the final steps in Terminal:
+
+0) Include your Twitter credentials via https://apps.twitter.com/ by making a new project, and type in 	```export GOOGLE_APPLICATION_CREDENTIALS="language_key.json" ``` in your folder so that you can activate the Google NLP API. 
+1) ```python mine_tweets.py > mined_tweets.json ```
+   
    You can change the # of seconds you wish to collect tweets for by changing the variable "runtime" in mine_tweets.py.
-2) python parse_twitter.py > final_tweets.json
+2) ```python parse_twitter.py > final_tweets.json```
 	Be sure to open final tweets and then delete the last empty line in the file (otherwise there will be an error).
 3) Open the map.html file and then upload the final_tweets.json file at the top of the page
 4) Enjoy the visualization! Ta-da :D
