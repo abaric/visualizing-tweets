@@ -19,12 +19,14 @@
     </style>
   </head>
   <body>
+  <marquee behavior="scroll" direction="left">Hello! Upload a file to visualize sentiments from a tweet file</marquee>
     <input type="file" name="file" id="file">
     <div id="map"></div>
 
     <script>
       var tweets = [];
       var locations = [];
+      var sentiment_scores = [];
       var map;
 
       // https://stackoverflow.com/questions/23331546/how-to-use-javascript-to-read-local-text-file-and-read-line-by-line/23332116
@@ -38,6 +40,11 @@
               var tweet = lines[line].split("\t");
               tweets.push(tweet[0]);
               locations.push(tweet[1]);
+              sentiment_scores.push(tweet[2]);
+
+              // get number between -1 and 1
+              sentiment_scores.push(Math.random() * (1 - -1) + -1);
+              console.log(sentiment_scores[line]);
 
               // console.log(tweets[line]);
               // console.log(locations[line]);
@@ -47,16 +54,29 @@
           reader.readAsText(file);
       }
 
+      //https://stackoverflow.com/questions/7095574/google-maps-api-3-custom-marker-color-for-default-dot-marker
+      function pinSymbol(color) {
+          return {
+              path: 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z M -2,-30 a 2,2 0 1,1 4,0 2,2 0 1,1 -4,0',
+              fillColor: color,
+              fillOpacity: 1,
+              strokeColor: '#000',
+              strokeWeight: 2,
+              scale: 1,
+         };
+      }
+
       function initMap() {
 
         var markers=[];
-        var myLatLng = {lat: -85.6, lng: 60.5};
+        var myLatLng = {lat: 28.0339, lng: 1.6596};
+
 
         map = new google.maps.Map(document.getElementById('map'), {
          zoom: 2,
          center: myLatLng
        });
-
+        //https://stackoverflow.com/questions/25600961/google-map-infowindow-not-showing-properly-but-when-i-open-firbug-so-its-workin
         var infowindow = new google.maps.InfoWindow();
         for (var i = 0; i < locations.length; i++){
           var arr = JSON.parse(locations[i]);
@@ -64,8 +84,24 @@
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(arr[1], arr[0]),
             map: map,
-            title: tweets[i]
+            title: tweets[i],
+            //icon: pinSymbol("#FFF")
           });
+
+          // -1<= to <= -0.5: red
+          // -0.5< to <=0: orange
+          // 0< to <=0.5: pink
+          // 0.5< to <=1: green
+
+          if (sentiment_scores[i] >=-1 && sentiment_scores[i] <= -0.5){
+            marker.setIcon(pinSymbol("#F00"));
+          }else if (sentiment_scores[i] > -0.5 && sentiment_scores[i] <= 0){
+            marker.setIcon(pinSymbol("#FDB"));
+          }else if (sentiment_scores[i] > 0 && sentiment_scores[i] <= 0.5){
+            marker.setIcon(pinSymbol("#FFE"));
+          }else{
+            marker.setIcon(pinSymbol("#7DB"));
+          }
 
           google.maps.event.addListener(marker, 'click', (function (marker, i) {
             return function () {
